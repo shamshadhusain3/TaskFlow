@@ -7,13 +7,22 @@ import { ThreeDCardDemo } from './components/ThreeDCardDemo'
 import HeroSection from './components/HeroSection'
 import Navbar from './components/Navbar'
 
+
+
+
 function App() {
   
 
   return (
-   <main  >
+   <main className='md:mx-11 xl:mx-40' >
     <Navbar/>
     <HeroSection/>
+    <div className=" ">
+    
+     <MacbookScrollDemo/>
+    
+    </div>
+    
    </main>
   )
 }
