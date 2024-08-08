@@ -4,7 +4,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-[#3c83f6c0] to-[#06b5d470] z-30 text-white py-6">
+    <footer className="bg-blue-gradient z-30 text-white py-6">
           <div className="ftrHeading flex justify-center items-center flex-col">
            <div className="logo flex  justify-center items-center"><img src="images/logo.png" alt="Logo" /> <h2 className="text-xl font-semibold mb-2"> TaskFlow</h2></div>
             <p className="text-sm mb-4">A Task Management System</p>

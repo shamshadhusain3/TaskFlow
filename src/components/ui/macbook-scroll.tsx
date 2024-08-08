@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { MotionValue, motion, useScroll, useTransform } from "framer-motion";
 import { cn } from "../../lib/utils";
+import AuthForm from './AuthForm'
 import {
   IconBrightnessDown,
   IconBrightnessUp,
@@ -148,9 +149,9 @@ export const Lid = ({
           style={{
             boxShadow: "0px 2px 0px 2px var(--neutral-900) inset",
           }}
-          className="absolute inset-0 bg-[#010101] rounded-lg flex items-center justify-center"
+          className="absolute inset-0 rounded-lg flex items-center justify-center overflow-hidden mt-3 mr-2 custom-glow "
         >
-          <span className="text-white">
+          <span className="bg-[url('images/designerbg.png')] rounded-lg flex items-center h-[20VH] ml-2 justify-center bg-center bg-cover w-full ">
             <AceternityLogo />
           </span>
         </div>
@@ -169,11 +170,15 @@ export const Lid = ({
         className="h-96 w-[32rem] absolute inset-0 bg-[#010101] rounded-2xl p-2"
       >
         <div className="absolute inset-0 bg-[#272729] rounded-lg" />
-        <img
+        <div className="object-cover object-left-top absolute rounded-lg inset-0 h-full w-full ">
+          <AuthForm/>
+        </div>
+        
+        {/* <img
   src="images/Designer.png"
   alt="TaskFlow logo"
   className="object-cover object-left-top absolute rounded-lg inset-0 h-full w-full shadow-custom-glow"
-/>
+/> */}
 
 
       </motion.div>

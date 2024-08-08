@@ -15,6 +15,14 @@ module.exports = {
       boxShadow: {
         'custom-glow': '0px 0px 91px 26px rgba(46, 182, 255, 0.65)' // Custom shadow value
       },
+      backgroundPosition: {
+        'center-center': 'center center',
+      },
+      backgroundImage: {
+        'blue-gradient': 'linear-gradient(to right, #06b6d4, #3b82f6)',
+        'light-blue-gradient': 'linear-gradient(to right, #3c83f6c0, #06b5d470)'
+      },
+      
       
      
     },

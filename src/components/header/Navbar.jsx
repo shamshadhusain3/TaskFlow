@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
+import Header from "./Header";
 
 function Navbar() {
   const [isRightHanded, setisRightHanded] = useState(false);
@@ -19,16 +20,6 @@ function Navbar() {
 
   return (
     <>
-      <div className="h-14 bg-gradient-to-r from-cyan-500 to-blue-500 relative sm:hidden">
-        <div className="flex items-center justify-between h-full px-6">
-          <div className="text-white flex items-center font-bold text-2xl">
-            <div className="logo">
-              <img src="images/logo.png" alt="Logo" />
-            </div>
-            <div className="logoText">TaskFlow</div>
-          </div>
-        </div>
-      </div>
 
       <div className="absolute top-3 right-12  md:right-20 xl:right-40 z-50">
         <button
