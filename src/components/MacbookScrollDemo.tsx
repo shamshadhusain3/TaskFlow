@@ -3,7 +3,7 @@ import { MacbookScroll } from "../components/ui/macbook-scroll";
 
 export function MacbookScrollDemo() {
   return (
-    <div className="overflow-hidden dark:bg-[#0B0B0F] bg-white w-full">
+    <div className="overflow-hidden dark:bg-[#0B0B0F] bg-white w-full relative h-[100vh] md:h-[180vh] mt-[17rem]">
       <MacbookScroll
         title={
           <span>
@@ -12,7 +12,7 @@ export function MacbookScrollDemo() {
         }
         badge={
           <a href="https://peerlist.io/manuarora" target="_blank" rel="noopener noreferrer">
-            <Badge className="h-10 w-10 transform -rotate-12" />
+            <Badge className="h-10 w-10 transform -rotate-12 " />
           </a>
         }
         src={`/linear.webp`}

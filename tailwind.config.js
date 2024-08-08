@@ -11,7 +11,13 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}"],
   darkMode: "class",
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        'custom-glow': '0px 0px 91px 26px rgba(46, 182, 255, 0.65)' // Custom shadow value
+      },
+      
+     
+    },
     // rest of the code
   },
   plugins: [

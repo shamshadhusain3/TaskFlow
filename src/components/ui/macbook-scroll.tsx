@@ -68,14 +68,16 @@ export const MacbookScroll = ({
   return (
     <div
       ref={ref}
-      className="min-h-[200vh]  flex flex-col items-center py-0 md:py-14 justify-start flex-shrink-0 [perspective:800px] transform md:scale-100  scale-[0.35] sm:scale-50"
+      className="min-h-[200vh]  flex flex-col items-center py-0 md:py-14 justify-start flex-shrink-0 [perspective:800px] transform md:scale-100  scale-[0.35] sm:scale-50 
+      position: absolute top-[-50%] left-[50%] -translate-x-[50%] md:static md:translate-x-0
+      "
     >
       <motion.h2
         style={{
           translateY: textTransform,
           opacity: textOpacity,
         }}
-        className="dark:text-white text-neutral-800 text-3xl font-bold mb-20 text-center"
+        className="dark:text-white text-neutral-800 md:text-3xl text-[3rem] leading-none font-bold mb-20 text-center"
       >
         {title || (
           <span>
@@ -161,16 +163,19 @@ export const Lid = ({
           translateY: translate,
           transformStyle: "preserve-3d",
           transformOrigin: "top",
+          // transition: "scaleX 0.3s, scaleY 0.3s, rotateX 0.3s, translateY 0.3s",
+
         }}
         className="h-96 w-[32rem] absolute inset-0 bg-[#010101] rounded-2xl p-2"
       >
         <div className="absolute inset-0 bg-[#272729] rounded-lg" />
         <img
-          src="images/Designer.png"
-          alt=" TaskFlow logo"
-        //   fill
-          className="object-cover object-left-top absolute rounded-lg inset-0 h-full w-full"
-        />
+  src="images/Designer.png"
+  alt="TaskFlow logo"
+  className="object-cover object-left-top absolute rounded-lg inset-0 h-full w-full shadow-custom-glow"
+/>
+
+
       </motion.div>
     </div>
   );

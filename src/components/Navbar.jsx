@@ -30,14 +30,14 @@ function Navbar() {
         </div>
       </div>
 
-      <div className="absolute top-3 right-5  md:right-20 xl:right-40 z-50">
+      <div className="absolute top-3 right-12  md:right-20 xl:right-40 z-50">
         <button
-          className="text-white text-3xl sm:text-blue-400 focus:outline-none"
+          className="text-white text-3xl fixed sm:text-blue-400 focus:outline-none"
           onClick={toggleNavbar}
         >
           {toggleNav ? (
             <HiOutlineX
-              className={`${toggleNav ? "text-white" : "text-blue-500"}`}
+              className={`${isRightHanded? "text-white" : "md:text-blue-500"}`}
             />
           ) : (
             <HiOutlineMenuAlt3 />
@@ -46,11 +46,9 @@ function Navbar() {
       </div>
 
       <div
-        style={navMenuStyle}
-        className={`bg-gradient-to-r  z-30 to-[#06b5d470] from-[#3c83f6c0] flex flex-col transition-transform duration-700 ease-in-out fixed top-0 ${isRightHanded ? 'right-0':'left-0'} h-screen w-56 transform ${
-            isRightHanded?toggleNav  ? "translate-x-0": "-translate-x-[380px]":toggleNav  ? "translate-x-0": "translate-x-full"
-          
-        }`}
+        className={`bg-gradient-to-r z-30 to-[#06b5d470] from-[#3c83f6c0] flex flex-col fixed top-0 h-screen w-56   transition-transform duration-700 ease-in-out ${
+          isRightHanded ? 'right-0' : 'left-0'
+        } ${toggleNav ? 'translate-x-0' : isRightHanded ? 'translate-x-full' : '-translate-x-full transition-all '} `}
       >
         <div className="flex-1">
           <ul className="flex flex-col items-center justify-center h-full gap-8 text-white">
@@ -76,9 +74,12 @@ function Navbar() {
             </li>
           </ul>
         </div>
-        <div className="btn flex pb-4 justify-center px-4">
-          <button className="px-[14px] py-[10px] bg-white rounded-md  " onClick={()=>setisRightHanded(!isRightHanded)}>
-            {isRightHanded?'Left':"Right"}
+        <div className={`btn flex pb-4  ${isRightHanded ? 'justify-end' : 'justify-start'} px-4`}>
+          <button
+            className="px-[14px] py-[10px] bg-white rounded-md"
+            onClick={() => setisRightHanded(!isRightHanded)}
+          >
+            {isRightHanded ? 'Left' : 'Right'}
           </button>
         </div>
       </div>
