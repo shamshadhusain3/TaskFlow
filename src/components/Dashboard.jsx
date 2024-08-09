@@ -18,8 +18,18 @@ function Dashboard() {
                   <h1 className="user-id text-slate-600 font-semibold text-lg">U1234</h1>
                   </div>
             </div>
-            <div className="buttonSection h-[20vh] w-full border-b-2 border-blue-400 btn-container justify-end items-center flex ">
+            <div className="buttonSection h-[20vh] w-full border-b-2 border-blue-400 btn-container flex justify-center items-center gap-3">
              
+                <Button
+                //  text="Profile"
+                // bg="bg-blue-300"
+                // border="border-blue-500"
+                />
+                <Button
+                //  text="Profile"
+                // bg="bg-blue-300"
+                // border="border-blue-500"
+                />
                 <Button
                 //  text="Profile"
                 // bg="bg-blue-300"

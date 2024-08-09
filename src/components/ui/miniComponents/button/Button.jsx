@@ -1,27 +1,16 @@
-import React from 'react'
-import '.'
+import React from 'react';
+import "./button.css"
 
-export function Button({text,bg,border}) {
+export const Button = () => {
   return (
-    
-    <button className="relative inline-flex items-center justify-center px-12 py-4 border border-black rounded-full font-bold text-white bg-black overflow-hidden transition-transform duration-200 transform hover:translate-y-full">
-    <div className="absolute inset-0 flex items-center justify-center bg-white text-black transition-transform duration-200 transform translate-y-0 hover:translate-y-full">
-      Button
-    </div>
-    <div className="absolute inset-0 flex items-center justify-center text-white">
-      <div className="flex gap-1">
-        <span className="opacity-0 translate-y-[-15px] transition-transform duration-200 delay-100 hover:opacity-100 hover:translate-y-0">B</span>
-        <span className="opacity-0 translate-y-[-15px] transition-transform duration-200 delay-200 hover:opacity-100 hover:translate-y-0">U</span>
-        <span className="opacity-0 translate-y-[-15px] transition-transform duration-200 delay-300 hover:opacity-100 hover:translate-y-0">T</span>
-        <span className="opacity-0 translate-y-[-15px] transition-transform duration-200 delay-400 hover:opacity-100 hover:translate-y-0">T</span>
-        <span className="opacity-0 translate-y-[-15px] transition-transform duration-200 delay-500 hover:opacity-100 hover:translate-y-0">O</span>
-        <span className="opacity-0 translate-y-[-15px] transition-transform duration-200 delay-600 hover:opacity-100 hover:translate-y-0">N</span>
-      </div>
-    </div>
-  </button>
-      
-    
-  )
-}
+    /* From Uiverse.io by mrhyddenn */ 
+<button className='w-32 flex justify-center items-center'>
+    {/* <svg viewBox="0 0 16 16" className="bi bi-twitter p-5" fill="currentColor" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+    </svg> */}
+    <span>Twitter</span>
+</button>
+  );
+};
 
-
+// export default Button;
