@@ -22,7 +22,14 @@ const About = () => {
       {
         opacity: 1,
         y: 0,
-        stagger: 0.2,
+        stagger:0.3,
+        // stagger: {
+        //   each: 0.2,
+        //   from: 'center',
+        //   grid: 'auto',
+        //   ease: 'power2.inOut',
+        //   // repeat: -1
+        // },
         duration: 0.8,
         ease: 'power3.out',
         scrollTrigger: {

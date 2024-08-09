@@ -4,7 +4,7 @@ import './Card.css'
 const Card = ({ title, content, imageSrc, footer }) => {
   return (
   
-<div className=" flip-card  md:h-[38vh] md:w-[24vw]  group">
+<div className=" flip-card h-[40vh] w-[80vw]  md:h-[38vh] md:w-[24vw]  group">
       <div className=" flip-card-inner ">
         {/* Front Side */}
         <div className=" flip-card-front">

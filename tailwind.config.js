@@ -22,6 +22,9 @@ module.exports = {
         'blue-gradient': 'linear-gradient(to right, #06b6d4, #3b82f6)',
         'light-blue-gradient': 'linear-gradient(to right, #3c83f6c0, #06b5d470)'
       },
+      borderColor: {
+        'b-blue-gradient': 'linear-gradient(to right, #06b6d4, #3b82f6)',
+      },
       
       
      

@@ -1,13 +1,25 @@
 import React from 'react'
+// import Shery from "sheryjs";
 import { MacbookScrollDemo } from './MacbookScrollDemo'
 
 function HeroSection() {
+
+//   Shery.imageEffect(".img", {
+//     style: 2, //Select Style
+//     debug: true, // Debug Panel
+//     config: {
+//       /* Config made from debug panel */
+//     },
+//     preset: "./presets/wigglewobble.json",
+//   });
+
+// Shery.mouseFollower();
   return (
     <div className="h-auto w-full  lg:mt-40">
       <div className=' flex flex-col md:py-16 md:mb-20 relative gap-6 p-6 mt-16 sm:mt-20 md:flex-row md:gap-3
      items-center'>
       <div className="sideImage md:hidden">
-        <img src="images/sideImage.png" className='w-full' alt="" />
+        <img src="images/sideImage.png" className='w-full img' alt="" />
       </div>
       <div className="heroContent md:w-2/3 md:w-full
        flex flex-col gap-8 justify-center items-center md:justify-start md:items-start">

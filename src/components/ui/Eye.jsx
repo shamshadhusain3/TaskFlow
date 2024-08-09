@@ -17,7 +17,7 @@ function Eye({img,bg}) {
 
  
 
-    <div  className={`w-full bg-[${bg}] h-screen overflow-hidden`}>
+    <div  className={`w-full bg-[${bg}] h-screen overflow-hidden md:block hidden`}>
       <div data-scroll data-scroll-section data-scroll-speed='-.7' className={`relative ${img} h-full bg-center bg-cover w-full`}>
         <div className="flex justify-center gap-10 items-center absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%] ">
           <div className={`w-[15vw] h-[15vw] rounded-full bg-white flex justify-center items-center`}>

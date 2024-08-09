@@ -44,22 +44,27 @@ export const MacbookScroll = ({
   });
 
   const [isMobile, setIsMobile] = useState(false);
+  if(isMobile) {
+    console.log("mobile hai bhaiya")
+  }
 
   useEffect(() => {
     if (window && window.innerWidth < 768) {
       setIsMobile(true);
+    }else{
+      setIsMobile(false);
     }
-  }, []);
+  }, [isMobile]);
 
   const scaleX = useTransform(
     scrollYProgress,
     [0, 0.3],
-    [1.2, isMobile ? 1 : 1.5]
+    [1.2, isMobile ? 2 : 1.5]
   );
   const scaleY = useTransform(
     scrollYProgress,
     [0, 0.3],
-    [0.6, isMobile ? 1 : 1.5]
+    [0.6, isMobile ? 2 : 1.5]
   );
   const translate = useTransform(scrollYProgress, [0, 1], [0, 1500]);
   const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
@@ -152,7 +157,7 @@ export const Lid = ({
           className="absolute inset-0 rounded-lg flex items-center justify-center overflow-hidden mt-3 mr-2 custom-glow "
         >
           <span className="bg-[url('images/designerbg.png')] rounded-lg flex items-center h-[20VH] ml-2 justify-center bg-center bg-cover w-full ">
-            <AceternityLogo />
+            {/* <AceternityLogo /> */}
           </span>
         </div>
       </div>
@@ -162,7 +167,7 @@ export const Lid = ({
           scaleY: scaleY,
           rotateX: rotate,
           translateY: translate,
-          transformStyle: "preserve-3d",
+          transformStyle: "flat",
           transformOrigin: "top",
           // transition: "scaleX 0.3s, scaleY 0.3s, rotateX 0.3s, translateY 0.3s",
 
@@ -170,7 +175,7 @@ export const Lid = ({
         className="h-96 w-[32rem] absolute inset-0 bg-[#010101] rounded-2xl p-2"
       >
         <div className="absolute inset-0 bg-[#272729] rounded-lg" />
-        <div className="object-cover object-left-top absolute rounded-lg inset-0 h-full w-full ">
+        <div className="object-cover object-left-top absolute rounded-lg inset-0 h-full w-full opacity-[1] ">
           <AuthForm/>
         </div>
         
