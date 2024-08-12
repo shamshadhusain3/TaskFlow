@@ -1,5 +1,5 @@
 /* From Uiverse.io by mrhyddenn */ 
-button {
+.newBtn {
   background: transparent;
   position: relative;
   padding: 5px 15px;
@@ -13,16 +13,16 @@ button {
   border-radius: 25px;
   outline: none;
   overflow: hidden;
-  color: rgb(40, 144, 241);
+  color: rgb(255, 255, 255);
   transition: color 0.3s 0.1s ease-out;
   text-align: center;
 }
 
-button span {
+.newBtn span {
   margin: 10px;
 }
 
-button::before {
+.newBtn::before {
   position: absolute;
   top: 0;
   left: 0;
@@ -40,12 +40,25 @@ button::before {
   z-index: -1;
 }
 
-button:hover {
+.newBtn:hover {
   color: #fff;
   border: 1px solid rgb(40, 144, 241);
 }
+.newBtnWhite:hover {
+  color: rgb(40, 144, 241);
 
-button:hover::before {
-  box-shadow: inset 0 0 0 10em rgb(40, 144, 241);
+  border: 1px solid rgb(40, 144, 241);
 }
- 
+
+.yellow:hover::before {
+  box-shadow: inset 0 0 0 10em #FFCA42;
+}
+.blue:hover::before {
+  box-shadow: inset 0 0 0 10em  var(--hover-color, #2890f1);
+}
+.sky:hover::before {
+  box-shadow: inset 0 0 0 10em #7FB3F1;
+}
+.green:hover::before {
+  box-shadow: inset 0 0 0 10em #35FBCB;
+}

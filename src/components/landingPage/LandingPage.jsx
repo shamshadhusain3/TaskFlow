@@ -14,7 +14,7 @@ import EyeContainer from '../ui/EyeContainer'
 
 function LandingPage() {
   return (
-    <main className='md:mx-11 xl:mx-40' >
+    <div  >
   <Header navTitle="TaskFlow" />
 
         
@@ -54,7 +54,7 @@ function LandingPage() {
 
 {/* Footer */}
 <Footer/>
-   </main>
+   </div>
   )
 }
 

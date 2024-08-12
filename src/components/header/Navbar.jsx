@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
 import Header from "./Header";
+import { StyleButton } from "../ui/miniComponents/button/StyleButton";
 
 function Navbar() {
   const [isRightHanded, setisRightHanded] = useState(false);
@@ -66,6 +67,7 @@ function Navbar() {
           </ul>
         </div>
         <div className={`btn flex pb-4  ${isRightHanded ? 'justify-end' : 'justify-start'} px-4`}>
+          
           <button
             className="px-[14px] py-[10px] bg-white rounded-md"
             onClick={() => setisRightHanded(!isRightHanded)}
