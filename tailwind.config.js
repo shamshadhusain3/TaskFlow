@@ -20,6 +20,8 @@ module.exports = {
       },
       backgroundImage: {
         'blue-gradient': 'linear-gradient(to right, #06b6d4, #3b82f6)',
+        'blue-gradient-2': 'linear-gradient(to right, #3b82f6,#06b6d4)',
+
         'light-blue-gradient': 'linear-gradient(to right, #3c83f6c0, #06b5d470)'
       },
       borderColor: {
