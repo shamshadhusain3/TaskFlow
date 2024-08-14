@@ -7,19 +7,36 @@ import Task from './Task'
 import UpcomingEvents from './UpcomingEvents'
 import Profile from './Profile'
 import Goals from './Goals'
-import TeamMembers from '../../TeamMembers'
+
+import Team from './Team'
 
 function Dashboard() {
+  const [content, setContent] = React.useState('Task');
+
+const showContent={
+  Task:'Task',
+  Profile:'Profile',
+  Goals:'Goals',
+  Team:'Team',
+}
+
   const handleProfile=() => {
+    setContent('Profile')
     console.log('profile added to dashboard')
   }
   const handleTask=() => {
+    setContent('Task')
+
     console.log('task added to dashboard')
   }
   const handleGoals=() => {
+    setContent('Goals')
+
     console.log('goals added to dashboard')
   }
   const handleTeam=() => {
+    setContent('Team')
+
     console.log('Team added to dashboard')
   }
   return (
@@ -77,14 +94,19 @@ function Dashboard() {
               
             </div>
         </div>
-        <Task/>
-        <Profile/>
-        <UpcomingEvents/>
-        <Goals/>
-        <div className="text-center">
-          <h1 className='text-2xl font-bold text-blue-500 m-8'>My Team</h1>
-        <TeamMembers/>
-        </div>
+       
+       {
+        showContent.Task===content && <Task/>
+       }
+       {
+        showContent.Profile===content && <Profile/>
+       }
+       {
+        showContent.Goals===content && <Goals/>
+       }
+       {
+        showContent.Team===content && <Team/>
+       }
 
     </div>
   )
