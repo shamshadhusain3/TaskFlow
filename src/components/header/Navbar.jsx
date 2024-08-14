@@ -38,12 +38,13 @@ function Navbar() {
       </div>
 
       <div
-        className={`bg-gradient-to-r z-30 to-[#06b5d470] from-[#3c83f6c0] flex flex-col fixed top-0 h-screen w-56   transition-transform duration-700 ease-in-out ${
-          isRightHanded ? 'right-0' : 'left-0'
+        className={`bg-gradient-to-r z-30 to-[#06b5d470] from-[#3c83f6c0] flex flex-col fixed md:top-0 md:h-screen h-[88vh]  md:w-56 w-40 rounded-md  transition-transform duration-700 ease-in-out ${
+          isRightHanded ? 'right-0  ' : 'left-0  '
         } ${toggleNav ? 'translate-x-0' : isRightHanded ? 'translate-x-full' : '-translate-x-full transition-all '} `}
       >
+        
         <div className="flex-1">
-          <ul className="flex flex-col items-center justify-center h-full gap-8 text-white">
+          <ul className="flex flex-col items-center justify-center h-full gap-6 text-white">
             <li>
               <a href="#home" className="block py-2">
                 Home
@@ -62,6 +63,11 @@ function Navbar() {
             <li>
               <a href="#contact" className="block py-2">
                 Contact
+              </a>
+            </li>
+            <li>
+              <a href="#contact" className="block py-2">
+                Login
               </a>
             </li>
           </ul>

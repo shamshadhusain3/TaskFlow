@@ -15,6 +15,7 @@ function App() {
   return (
    <BrowserRouter>
    <main className='md:mx-11 xl:mx-40'>
+    
    <Routes>
    <Route path="/" element={<LandingPage />} />
     <Route path="/dashboard" element={<Dashboard />} />

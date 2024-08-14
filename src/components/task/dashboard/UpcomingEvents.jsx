@@ -8,7 +8,7 @@ const events = [
 
 const UpcomingEvents = () => {
   return (
-    <div className="max-w-4xl mx-auto p-6 text-blue-500">
+    <div className="w-4xl md:w-full mx-auto p-6 text-blue-500">
       <h2 className="text-2xl font-bold mb-4">Upcoming Events</h2>
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
         <ul className="divide-y divide-gray-200">

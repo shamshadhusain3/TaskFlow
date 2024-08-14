@@ -2,7 +2,7 @@ import React from 'react';
 
 const Profile = () => {
   return (
-    <div className="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden mt-10">
+    <div className="w-[90%] md:w-full mx-auto bg-white rounded-lg shadow-md overflow-hidden mt-10">
       <div className="bg-blue-gradient-2 p-6 flex items-center gap-[4.5rem]">
         <div className="flex items-center">
           <img

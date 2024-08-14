@@ -6,8 +6,22 @@ import TaskCard from '../TaskCard'
 import Task from './Task'
 import UpcomingEvents from './UpcomingEvents'
 import Profile from './Profile'
+import Goals from './Goals'
+import TeamMembers from '../../TeamMembers'
 
 function Dashboard() {
+  const handleProfile=() => {
+    console.log('profile added to dashboard')
+  }
+  const handleTask=() => {
+    console.log('task added to dashboard')
+  }
+  const handleGoals=() => {
+    console.log('goals added to dashboard')
+  }
+  const handleTeam=() => {
+    console.log('Team added to dashboard')
+  }
   return (
     <div>
         <Header navTitle='Dashboard'/>
@@ -27,12 +41,14 @@ function Dashboard() {
                 
              <div className="flex gap-4 md:gap-4">
              <StyleButton
+             onclick={handleProfile}
                 bg='bg-light-blue-gradient'
                  text="Profile"
                 hover="blue"
                 border="border-['#254898']"
                 />
                 <StyleButton
+                onclick={handleTask}
                     bg='bg-[#FFCA42]'
                  text="Tasks"
                 hover="sky"
@@ -41,12 +57,16 @@ function Dashboard() {
              </div>
              <div className="flex gap-4 md:gap-4">
              <StyleButton
+                onclick={handleGoals}
+
                 bg='bg-[#7FB3F1]'
                  text="Goals"
                 hover="yellow"
                 border="border-['#996F03']"
                 />
                 <StyleButton
+                onclick={handleTeam}
+
                     bg='bg-[#35FBCB]'
                  text="My Team"
                 hover="green"
@@ -60,6 +80,11 @@ function Dashboard() {
         <Task/>
         <Profile/>
         <UpcomingEvents/>
+        <Goals/>
+        <div className="text-center">
+          <h1 className='text-2xl font-bold text-blue-500 m-8'>My Team</h1>
+        <TeamMembers/>
+        </div>
 
     </div>
   )
