@@ -8,7 +8,7 @@ function Header({navTitle}) {
         <div className="logo">
           <img src="images/logo.png" alt="Logo" />
         </div>
-        <div className="logoText">TaskFlow</div>
+        <div className="logoText">{navTitle}</div>
       </div>
     </div>
   </div>
