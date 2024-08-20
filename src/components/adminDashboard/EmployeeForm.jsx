@@ -3,15 +3,17 @@ import React, { useState } from 'react';
 const EmployeeForm = ({ onAdd }) => {
     const [name, setName] = useState('');
     const [role, setRole] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (name && role) {
-            onAdd({ name, role });
+        if (name && role && password) {
+            onAdd({ name, role, password });
             setName('');
             setRole('');
+            setPassword('');
         } else {
-            alert('Please fill in both fields');
+            alert('Please fill in all fields');
         }
     };
 
@@ -42,6 +44,19 @@ const EmployeeForm = ({ onAdd }) => {
                     onChange={(e) => setRole(e.target.value)}
                     className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     placeholder="Enter employee role"
+                />
+            </div>
+            <div className="mb-4">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                    Password
+                </label>
+                <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    placeholder="Enter employee password"
                 />
             </div>
             <button

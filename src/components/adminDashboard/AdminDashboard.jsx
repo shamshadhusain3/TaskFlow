@@ -10,6 +10,7 @@ import Header from '../header/Header';
 import Navbar from '../header/Navbar';
 
 export const AdminDashboard = () => {
+
     const [employees, setEmployees] = useState([
         { name: 'Shamshad Husain', role: 'Leader' },
         { name: 'Abhishek Tiwari', role: 'Developer' },
@@ -17,7 +18,15 @@ export const AdminDashboard = () => {
         { name: 'Harsh Shukla', role: 'Developer' },
     ]);
     const [showForm, setShowForm] = useState(false);
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState( [
+        { "id": "1", "name": "Task 1", "assignedTo": "John Doe", "status": "Pending" },
+        { "id": "2", "name": "Task 2", "assignedTo": "Jane Smith", "status": "Completed" },
+        { "id": "3", "name": "Task 3", "assignedTo": "Alice Johnson", "status": "In Progress" },
+        { "id": "4", "name": "Task 4", "assignedTo": "Bob Brown", "status": "Completed" }
+    ]);
+    const totalTasks = tasks.length;
+    const totalPendingTasks = tasks.filter(task => task.status === 'Pending').length;
+    const totalCompletedTasks = tasks.filter(task => task.status === 'Completed').length;
 
     const addEmployee = (employee) => {
         setEmployees([...employees, employee]);
@@ -43,21 +52,33 @@ export const AdminDashboard = () => {
         setShowForm(!showForm);
     };
 
+    const [content, setContent] = React.useState('Employee');
+
+const showContent={
+  Task:'Task',
+  Employee:'Employee',
+}
+
+
     return (
-        <div className="">
-            <Header navTitle='Admin Dashboard'/>
-            <Navbar/>
-            <div className="flex-grow p-5">
-                <Dashboard />
-                <TaskForm onSubmit={addTask} />
-                <TaskList tasks={tasks} onEdit={editTask} onDelete={deleteTask} />
-                <EmployeeList
+        <div className="flex w-full">
+            {/* <Header navTitle='Admin Dashboard'/>
+            <Navbar/> */} 
+            <Sidebar setContent={setContent}  />
+            <div className=" p-5 md:w-[70vw] md:absolute md:left-96 left-0">
+                <Dashboard totalTasks={totalTasks} totalCompletedTasks={totalCompletedTasks} totalPendingTasks={totalPendingTasks} totalEmployee={employees.length} />
+                {showContent.Task === content &&  <TaskList tasks={tasks} onEdit={editTask} onDelete={deleteTask} /> }
+                {showContent.Task === content && <TaskForm onSubmit={addTask} />}
+                
+                {showContent.Employee === content && <EmployeeList
                     employees={employees}
                     onAdd={addEmployee}
                     onRemove={removeEmployee}
                     toggleForm={toggleForm}
                     showForm={showForm}
                 />
+                
+                }
             </div>
         </div>
     );

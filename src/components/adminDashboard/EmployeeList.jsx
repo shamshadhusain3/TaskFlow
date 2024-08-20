@@ -15,8 +15,9 @@ const EmployeeList = ({ employees, onAdd, onRemove, toggleForm, showForm }) => {
         event.preventDefault();
         const name = event.target.name.value;
         const role = event.target.role.value;
-        if (name && role) {
-            onAdd({ name, role });
+        const password = event.target.password.value;
+        if (name && role && password) {
+            onAdd({ name, role, password });
             toggleForm(); // Close form after adding
         }
     };
@@ -73,6 +74,14 @@ const EmployeeList = ({ employees, onAdd, onRemove, toggleForm, showForm }) => {
                                 <input
                                     type="text"
                                     name="role"
+                                    className="mt-1 p-2 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-sm sm:text-base font-medium text-gray-700">Password</label>
+                                <input
+                                    type="password"
+                                    name="password"
                                     className="mt-1 p-2 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                 />
                             </div>
