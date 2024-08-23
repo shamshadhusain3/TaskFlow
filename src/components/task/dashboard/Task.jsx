@@ -102,11 +102,15 @@ const Task = () => {
     setTasks(tasks.map(task =>
       task.taskNo === taskNo ? { ...task, remarks: newRemark } : task
     ));
+
   };
+  const deleteTask = (task) => {
+    setTasks(tasks.filter(t => t !== task));
+};
 
   return (
     <div className="card-container flex flex-col justify-center items-center mt-12 gap-5 border-2 border-b-blue-500 mb-5 py-6">
-      <TaskList tasks={tasks} setTasks={setTasks} onEdit={handleShowDetails}/>
+      <TaskList tasks={tasks} setTasks={setTasks} onEdit={handleShowDetails} onDelete={deleteTask}/>
       {/* {tasks.map(task => (
         <TaskCard
           key={task.taskNo}
