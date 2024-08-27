@@ -39,14 +39,20 @@ function LandingPage() {
 <Card
  title="Beautiful Card"
  content="This is a beautiful card component created with React and Tailwind CSS. It has an image, title, content, and an optional footer."
- imageSrc="https://via.placeholder.com/400x200" // Replace with your image URL
+ imageSrc="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" // Replace with your image URL
  footer={<button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Learn More</button>}
 />
-<ThreeDCardDemo/>
+<Card
+ title="Beautiful Card"
+ content="This is a beautiful card component created with React and Tailwind CSS. It has an image, title, content, and an optional footer."
+ imageSrc="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" // Replace with your image URL
+ footer={<button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Learn More</button>}
+/>
+{/* <ThreeDCardDemo/> */}
 </div>
-<div >
+{/* <div >
     <EyeContainer/>
-</div>
+</div> */}
 <div className="about">
     <About/>
 </div>
