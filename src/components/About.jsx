@@ -42,7 +42,7 @@ const About = () => {
   }, []);
 
   return (
-    <div className="bg-gray-100 py-16">
+    <div id='about' className="bg-gray-100 py-16">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0 }}

@@ -9,6 +9,7 @@ import Footer from '../Footer'
 import Eye from '../ui/Eye'
 import About from '../About'
 import EyeContainer from '../ui/EyeContainer'
+import ContactUs from '../ContactUs'
 
 
 
@@ -55,6 +56,9 @@ function LandingPage() {
 </div> */}
 <div className="about">
     <About/>
+</div>
+<div className="contact">
+<ContactUs />
 </div>
 
 
