@@ -115,7 +115,7 @@ export const AdminDashboard = () => {
         {showContent.Task === content && (
           <TaskList tasks={tasks} onEdit={editTask} onDelete={deleteTask} />
         )}
-        <div className="p-5 flex w-full gap-3 flex-wrap">
+        <div className="px-10 flex w-full gap-10 flex-wrap">
         <div className="h-[50vh] w-[380px] bg-gray-100 flex items-center justify-center flex-wrap gap-8 p-10 overflow-auto">
           {employees.map((employee, index) => (
             <EmployeeCard

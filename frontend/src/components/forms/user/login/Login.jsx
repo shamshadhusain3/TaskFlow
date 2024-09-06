@@ -24,7 +24,7 @@ const Login = ({ authenticated }) => {
     // Redirect if user is authenticated
     useEffect(() => {
         if (authenticated) {
-            navigate('/', { state: { from: location } });
+            navigate('/profile', { state: { from: location } });
         }
     }, [authenticated, navigate, location]);
 

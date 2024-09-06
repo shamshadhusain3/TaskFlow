@@ -106,7 +106,7 @@ const TaskList = ({ tasks, setTasks, onEdit, onDelete }) => {
     <DndProvider backend={HTML5Backend}>
       <div className="p-10">
         <h2 className="text-2xl font-bold mb-5">Task Board</h2>
-        <div className="flex flex-col md:flex-row gap-3 w-full justify-between">
+        <div className="flex flex-wrap md:flex-row gap-3 w-full justify-center">
           {Object.entries(columns).map(([columnId, column]) => (
             <Column
               key={columnId}
@@ -120,7 +120,7 @@ const TaskList = ({ tasks, setTasks, onEdit, onDelete }) => {
             />
           ))}
           <div className="bg-white rounded-lg shadow-md p-5 w-[260px] mx-2  ">
-            <h3 class="font-bold text-lg mb-4">Manage</h3>
+            <h3 className="font-bold text-lg mb-4">Manage</h3>
             <div className="p-3mb-4bg-gray-100 btn-container flex flex-col gap-1">
             <StyleButton
             bg="blue"

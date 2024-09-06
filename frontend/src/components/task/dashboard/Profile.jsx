@@ -1,52 +1,116 @@
-import React from 'react';
+import React from 'react'
+import Navbar from '../../header/Navbar'
+import Header from '../../header/Header'
+import { StyleButton } from '../../ui/miniComponents/button/StyleButton'
+import TaskCard from '../TaskCard'
+import Task from './Task'
+import UpcomingEvents from './UpcomingEvents'
+import ProfileDetail from './ProfileDetail'
+import Goals from './Goals'
 
-const Profile = () => {
+import Team from './Team'
+
+function Profile() {
+  const [content, setContent] = React.useState('Task');
+
+const showContent={
+  Task:'Task',
+  Profile:'Profile',
+  Goals:'Goals',
+  Team:'Team',
+}
+
+  const handleProfile=() => {
+    setContent('Profile')
+    console.log('profile added to dashboard')
+  }
+  const handleTask=() => {
+    setContent('Task')
+
+    console.log('task added to dashboard')
+  }
+  const handleGoals=() => {
+    setContent('Goals')
+
+    console.log('goals added to dashboard')
+  }
+  const handleTeam=() => {
+    setContent('Team')
+
+    console.log('Team added to dashboard')
+  }
   return (
-    <div className="w-[90%] md:w-full mx-auto bg-white rounded-lg shadow-md overflow-hidden mt-10">
-      <div className="bg-blue-gradient-2 p-6 flex items-center gap-[4.5rem]">
-        <div className="flex items-center">
-          <img
-            src="/images/userImage.png"
-            alt="profile"
-            className="w-20 h-20 rounded-full object-cover border-2 border-white"
-          />
-        </div>
-          <div className="flex flex-col justify-center items-center gap-4">
-          <div className="ml-4 text-white">
-            <h2 className="text-xl font-semibold">Profile</h2>
-          </div>
-        <button className="bg-white text-blue-700 font-semibold py-2 px-4 rounded">
-          Update Pic.
-        </button>
-          </div>
-      </div>
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-gray-600 font-semibold">Name :</span>
-          <span className="text-black">Astha Sachan</span>
-        </div>
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-gray-600 font-semibold">EmpId :</span>
-          <span className="text-black">U2325</span>
-        </div>
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-gray-600 font-semibold">Email :</span>
-          <span className="text-black">sachan***@gmail.com</span>
-        </div>
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-gray-600 font-semibold">Password :</span>
-          <span className="text-black">U2325</span>
-        </div>
-        <div className="flex items-center justify-between mb-8">
-          <span className="text-gray-600 font-semibold">Phone :</span>
-          <span className="text-black">885*****22</span>
-        </div>
-        <button className="w-full bg-blue-gradient-2 text-white font-semibold py-2 rounded hover:bg-blue-gradient hover:transition-all hover:duration-300 hover:ease-in-out  transition duration-300">
-          Update
-        </button>
-      </div>
-    </div>
-  );
-};
+    <div>
+        <Header navTitle='Dashboard'/>
+        <Navbar/>
+        <div className="container">
+            <div className="user-detail h-1/3 w-full p-10 flex flex-col gap-3 items-center justify-center mt-[2rem] border-b-2 border-blue-500">
+                <div className="img">
+                <img src="images/userImage.png" alt="userPhoto" />
+                </div>
+                <div className="userDetail flex flex-col justify-center items-center">
+                  <h1 className='user-name font-bold text-xl '>Astha Sachan</h1>
+                  <h1 className="user-id text-slate-600 font-semibold text-lg">U1234</h1>
+                  </div>
+            </div>
+            <div className="buttonSection h-40 md:h-[20vh] w-full border-b-2 border-blue-400 btn-container flex justify-center items-center flex-wrap gap-x-4">
+             
+                
+             <div className="flex gap-4 md:gap-4">
+             <StyleButton
+             onclick={handleProfile}
+                bg='blue'
+                 text="Profile"
+                hover="blue"
+                border="border-['#254898']"
+                />
+                <StyleButton
+                onclick={handleTask}
+                    bg='sky'
+                 text="Tasks"
+                hover="sky"
+                border="border-['#186AB5']"
+                />
+             </div>
+             <div className="flex gap-4 md:gap-4">
+             <StyleButton
+                onclick={handleGoals}
 
-export default Profile;
+                bg='yellow'
+                 text="Goals"
+                hover="yellow"
+                border="border-['#996F03']"
+                />
+                <StyleButton
+                onclick={handleTeam}
+
+                    bg='green'
+                 text="My Team"
+                hover="green"
+                border="border-['#0DA882']"
+                />
+                
+             </div>
+                
+              
+            </div>
+        </div>
+       
+       {
+        showContent.Task===content && <Task/>
+       }
+       {
+        showContent.Profile===content && <ProfileDetail/>
+       }
+       {
+        showContent.Goals===content && <Goals/>
+       }
+       {
+        showContent.Team===content && <Team/>
+       }
+
+    </div>
+  )
+}
+
+export default Profile
