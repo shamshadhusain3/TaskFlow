@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .rotate-x-180 {
+    transform: rotateX(180deg);
+    perspective: 1000px;
+  }
+}
+html{
+  scroll-behavior: smooth;
+}
+
+  
+  
