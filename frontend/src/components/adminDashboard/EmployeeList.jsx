@@ -1,9 +1,28 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
+import UseApiService from '../../services/UseApiService'; // Adjust the import path
 
-const EmployeeList = ({ employees, onAdd, onRemove, toggleForm, showForm }) => {
+const EmployeeList = () => {
+    const {
+        data: employees,
+        loading,
+        error,
+        getEmployees,
+        createEmployee,
+        updateEmployee,
+        deleteEmployee
+    } = UseApiService();
+
+    const [showForm, setShowForm] = useState(false);
+    const [isEditing, setIsEditing] = useState(false); // Track if we're editing
+    const [currentEmployee, setCurrentEmployee] = useState({ firstName: '', lastName: '', role: '' }); // Store current employee to edit
     const formRef = useRef(null);
+
+    useEffect(() => {
+        // Fetch employees when the component mounts
+        getEmployees();
+    }, []);
 
     useEffect(() => {
         if (showForm) {
@@ -11,16 +30,49 @@ const EmployeeList = ({ employees, onAdd, onRemove, toggleForm, showForm }) => {
         }
     }, [showForm]);
 
-    const handleAddEmployee = (event) => {
+    const handleAddOrUpdateEmployee = async (event) => {
         event.preventDefault();
-        const name = event.target.name.value;
+        const first_name = event.target.first_name.value;
+        const last_name = event.target.last_name.value;
         const role = event.target.role.value;
         const password = event.target.password.value;
-        if (name && role && password) {
-            onAdd({ name, role, password });
-            toggleForm(); // Close form after adding
+
+        if (first_name && last_name && role && (isEditing || password)) { // Password required only if creating
+            if (isEditing) {
+                // Update employee if in editing mode
+                await updateEmployee(currentEmployee.id, { firstName: first_name, lastName: last_name, role, password });
+                setIsEditing(false); // Reset editing state
+            } else {
+                // Add new employee
+                await createEmployee({ firstName: first_name, lastName: last_name, role, password });
+            }
+            getEmployees(); // Refresh the employee list
+            toggleForm(); // Close form after adding/updating
         }
     };
+
+    const handleEditEmployee = (employee) => {
+        setCurrentEmployee(employee); // Set the employee to be edited
+        setIsEditing(true); // Set editing mode
+        setShowForm(true); // Show the form with employee details
+    };
+
+    const handleRemoveEmployee = async (employee) => {
+        // Remove the employee by ID
+        await deleteEmployee(employee.id);
+        getEmployees(); // Refresh the employee list after removing
+    };
+
+    const toggleForm = () => {
+        setShowForm(!showForm);
+        if (!showForm) {
+            setCurrentEmployee({ firstName: '', lastName: '', role: '' }); // Clear the current employee when closing form
+            setIsEditing(false); // Reset editing state
+        }
+    };
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error.message}</p>;
 
     return (
         <div className="p-5 sm:p-10">
@@ -35,7 +87,7 @@ const EmployeeList = ({ employees, onAdd, onRemove, toggleForm, showForm }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {employees.map((employee, index) => (
+                        {employees && employees.map((employee, index) => (
                             <motion.tr
                                 key={index}
                                 className="border-t"
@@ -43,10 +95,21 @@ const EmployeeList = ({ employees, onAdd, onRemove, toggleForm, showForm }) => {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: index * 0.1 }}
                             >
-                                <td className="py-4 text-sm sm:text-base">{employee.name}</td>
+                                <td className="py-4 text-sm sm:text-base">{employee.firstName} {employee.lastName}</td>
                                 <td className="text-sm sm:text-base">{employee.role}</td>
                                 <td>
-                                    <button onClick={() => onRemove(employee)} className="text-red-500 hover:text-red-700 text-sm sm:text-base">Remove</button>
+                                    <button
+                                        onClick={() => handleEditEmployee(employee)}
+                                        className="text-blue-500 hover:text-blue-700 text-sm sm:text-base mr-4"
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={() => handleRemoveEmployee(employee)}
+                                        className="text-red-500 hover:text-red-700 text-sm sm:text-base"
+                                    >
+                                        Remove
+                                    </button>
                                 </td>
                             </motion.tr>
                         ))}
@@ -56,16 +119,26 @@ const EmployeeList = ({ employees, onAdd, onRemove, toggleForm, showForm }) => {
                     onClick={toggleForm}
                     className="mt-5 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 w-full sm:w-auto"
                 >
-                    Add Employee
+                    {isEditing ? 'Update Employee' : 'Add Employee'}
                 </button>
                 {showForm && (
                     <div ref={formRef} className="mt-5 bg-gray-100 p-4 sm:p-5 rounded-lg shadow-md">
-                        <form onSubmit={handleAddEmployee}>
+                        <form onSubmit={handleAddOrUpdateEmployee}>
                             <div className="mb-4">
-                                <label className="block text-sm sm:text-base font-medium text-gray-700">Name</label>
+                                <label className="block text-sm sm:text-base font-medium text-gray-700">First Name</label>
                                 <input
                                     type="text"
-                                    name="name"
+                                    name="first_name"
+                                    defaultValue={currentEmployee.firstName}
+                                    className="mt-1 p-2 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-sm sm:text-base font-medium text-gray-700">Last Name</label>
+                                <input
+                                    type="text"
+                                    name="last_name"
+                                    defaultValue={currentEmployee.lastName}
                                     className="mt-1 p-2 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                 />
                             </div>
@@ -74,6 +147,7 @@ const EmployeeList = ({ employees, onAdd, onRemove, toggleForm, showForm }) => {
                                 <input
                                     type="text"
                                     name="role"
+                                    defaultValue={currentEmployee.role}
                                     className="mt-1 p-2 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                 />
                             </div>
@@ -90,7 +164,7 @@ const EmployeeList = ({ employees, onAdd, onRemove, toggleForm, showForm }) => {
                                     type="submit"
                                     className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors duration-300 w-full sm:w-auto"
                                 >
-                                    Add
+                                    {isEditing ? 'Update' : 'Add'}
                                 </button>
                                 <button
                                     type="button"

@@ -37,6 +37,9 @@ function App() {
     <main className='md:mx-11 xl:mx-40'>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+
+
 
 
         {/* Protected route */}
@@ -48,14 +51,14 @@ function App() {
             </PrivateRoute>
           } 
         />
-        <Route 
+        {/* <Route 
           path="/admin" 
           element={
             <PrivateRoute authenticated={authenticated}>
               <AdminDashboard />
             </PrivateRoute>
           } 
-        />
+        /> */}
 
         <Route path="/login" element={<Login authenticated={authenticated} />} />
         <Route path="/signup" element={<Signup authenticated={authenticated} />} />

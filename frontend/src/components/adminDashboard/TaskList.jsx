@@ -3,7 +3,6 @@ import { useDrop, useDrag, DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { StyleButton } from "../ui/miniComponents/button/StyleButton";
 
-
 // Define the type for draggable items
 const ItemType = "TASK";
 
@@ -91,14 +90,12 @@ const TaskList = ({ tasks, setTasks, onEdit, onDelete }) => {
 
     if (!taskToMove) return; // Task not found
 
-    // Remove the task from its current column
-    const updatedTasks = tasks
-      .filter((task) => task.id !== taskId)
-      .map((task) =>
-        task.id === taskId ? { ...task, status: targetColumnId } : task
-      );
+    // Update the task's status and create a new array of tasks
+    const updatedTasks = tasks.map((task) =>
+      task.id === taskId ? { ...task, status: targetColumnId } : task
+    );
 
-    // Add the task to the new column
+    // Update the task state
     setTasks(updatedTasks);
   };
 
@@ -119,38 +116,37 @@ const TaskList = ({ tasks, setTasks, onEdit, onDelete }) => {
               onDelete={onDelete}
             />
           ))}
-          <div className="bg-white rounded-lg shadow-md p-5 w-[260px] mx-2  ">
+          <div className="bg-white rounded-lg shadow-md p-5 w-[260px] mx-2">
             <h3 className="font-bold text-lg mb-4">Manage</h3>
-            <div className="p-3mb-4bg-gray-100 btn-container flex flex-col gap-1">
-            <StyleButton
-            bg="blue"
-            text="Manage"
-            hover="blue"
-            border="border-['#0DA882']"
-            onclick={()=>alert('Manage')}
-          />
-          <StyleButton
-            bg="blue"
-            text="Tasks"
-            hover="blue"
-            border="border-['#0DA882']"
-            onclick={()=>alert('Task')}
-          />
-          <StyleButton
-            bg="blue"
-            text="Tasks"
-            hover="blue"
-            border="border-['#0DA882']"
-            onclick={()=>alert('Task')}
-          />
-          <StyleButton
-          bg="blue"
-          text="Tasks"
-          hover="blue"
-          border="border-['#0DA882']"
-          onclick={()=>alert('Task')}
-        />
-           
+            <div className="p-3 mb-4 bg-gray-100 btn-container flex flex-col gap-1">
+              <StyleButton
+                bg="blue"
+                text="Manage"
+                hover="blue"
+                border="border-['#0DA882']"
+                onclick={() => alert("Manage")}
+              />
+              <StyleButton
+                bg="blue"
+                text="Tasks"
+                hover="blue"
+                border="border-['#0DA882']"
+                onclick={() => alert("Task")}
+              />
+              <StyleButton
+                bg="blue"
+                text="Tasks"
+                hover="blue"
+                border="border-['#0DA882']"
+                onclick={() => alert("Task")}
+              />
+              <StyleButton
+                bg="blue"
+                text="Tasks"
+                hover="blue"
+                border="border-['#0DA882']"
+                onclick={() => alert("Task")}
+              />
             </div>
           </div>
         </div>
