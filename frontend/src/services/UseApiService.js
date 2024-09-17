@@ -1,18 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
 
-const UseApiService = () => {
-  const employeeBaseURL = "http://localhost:8080/api/v1/employees";
-  const taskBaseURL = "http://localhost:8080/api/v1/tasks";
+const useApiService = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Employee operations
-  const getEmployees = async () => {
+  const makeRequest = async (method, url, payload = null) => {
     setLoading(true);
     try {
-      const response = await axios.get(employeeBaseURL);
+      const response = await axios({ method, url, data: payload });
       setData(response.data);
     } catch (err) {
       setError(err);
@@ -21,112 +18,34 @@ const UseApiService = () => {
     }
   };
 
-  const getEmployeeById = async (id) => {
-    setLoading(true);
-    try {
-      const response = await axios.get(`${employeeBaseURL}/${id}`);
-      setData(response.data);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
+  // Generic GET request
+  const get = async (endpoint) => {
+    await makeRequest("get", endpoint);
+  };
+
+  // Generic GET request by ID
+  const getById = async (endpoint, id) => {
+    if (id) {
+      await makeRequest("get", `${endpoint}/${id}`);
     }
   };
 
-  const createEmployee = async (payload) => {
-    setLoading(true);
-    try {
-      const response = await axios.post(employeeBaseURL, payload);
-      setData(response.data);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
+  // Generic POST request
+  const create = async (endpoint, payload) => {
+    await makeRequest("post", endpoint, payload);
+  };
+
+  // Generic PUT request
+  const update = async (endpoint, id, payload) => {
+    if (id) {
+      await makeRequest("put", `${endpoint}/${id}`, payload);
     }
   };
 
-  const updateEmployee = async (id, payload) => {
-    setLoading(true);
-    try {
-      const response = await axios.put(`${employeeBaseURL}/${id}`, payload);
-      setData(response.data);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const deleteEmployee = async (id) => {
-    setLoading(true);
-    try {
-      await axios.delete(`${employeeBaseURL}/${id}`);
-      setData(null);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Task operations
-  const getTasks = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(taskBaseURL);
-      setData(response.data);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getTaskById = async (id) => {
-    setLoading(true);
-    try {
-      const response = await axios.get(`${taskBaseURL}/${id}`);
-      setData(response.data);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const createTask = async (payload) => {
-    setLoading(true);
-    try {
-      const response = await axios.post(taskBaseURL, payload);
-      setData(response.data);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const updateTask = async (id, payload) => {
-    setLoading(true);
-    try {
-      const response = await axios.put(`${taskBaseURL}/${id}`, payload);
-      setData(response.data);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const deleteTask = async (id) => {
-    setLoading(true);
-    try {
-      await axios.delete(`${taskBaseURL}/${id}`);
-      setData(null);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
+  // Generic DELETE request
+  const remove = async (endpoint, id) => {
+    if (id) {
+      await makeRequest("delete", `${endpoint}/${id}`);
     }
   };
 
@@ -134,17 +53,12 @@ const UseApiService = () => {
     data,
     loading,
     error,
-    getEmployees,
-    getEmployeeById,
-    createEmployee,
-    updateEmployee,
-    deleteEmployee,
-    getTasks,
-    getTaskById,
-    createTask,
-    updateTask,
-    deleteTask,
+    get,
+    getById,
+    create,
+    update,
+    remove,
   };
 };
 
-export default UseApiService;
+export default useApiService;

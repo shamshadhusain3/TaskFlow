@@ -1,72 +1,99 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Dashboard from "./Dashboard";
 import TaskForm from "./TaskForm";
 import TaskList from "./TaskList";
 import EmployeeList from "./EmployeeList";
 import EmployeeCard from "../EmployeeCard";
+import useApiService from "../../services/UseApiService";
 
 export const AdminDashboard = () => {
-  const [employees, setEmployees] = useState([
-    {
-      name: "John Doe",
-      role: "Software Engineer",
-      email: "john.doe@example.com",
-      imageUrl: "https://img.freepik.com/premium-photo/portrait-young-happy-latin-student-standing-classroom-looking-camera_562687-3027.jpg?w=740",
-    },
-    // Add other employees...
-  ]);
   const [showForm, setShowForm] = useState(false);
-  const [tasks, setTasks] = useState([
-    { id: "1", name: "Task 1", assignedTo: "John Doe", status: "Pending" },
-    { id: "2", name: "Task 2", assignedTo: "Jane Smith", status: "Completed" },
-    {
-      id: "3",
-      name: "Task 3",
-      assignedTo: "Alice Johnson",
-      status: "In Progress",
-    },
-    { id: "4", name: "Task 4", assignedTo: "Bob Brown", status: "Completed" }
-    // Add other tasks...
-  ]);
+  const [content, setContent] = useState("Employee");
 
-  const totalTasks = tasks.length;
-  const totalPendingTasks = tasks.filter(
-    (task) => task.status === "Pending"
-  ).length;
-  const totalCompletedTasks = tasks.filter(
-    (task) => task.status === "Completed"
-  ).length;
+  // Use custom API service hook
+  const { 
+    data: employees = [],  // Initialize employees to an empty array
+    get: getEmployees, 
+    create: createEmployee1, 
+    update: updateEmployee1, 
+    remove: removeEmployee, 
+    loading: loadingEmployees, 
+    error: errorEmployees 
+  } = useApiService();
 
-  const addEmployee = (employee) => {
-    setEmployees([...employees, employee]);
+  const { 
+    data: tasks = [], // Initialize tasks to an empty array
+    get: getTasks, 
+    create: createTask1, 
+    update: updateTask1, 
+    remove: removeTask, 
+    loading: loadingTasks, 
+    error: errorTasks 
+  } = useApiService();
+
+  // Fetch employees and tasks on component mount
+  useEffect(() => {
+    getEmployees("http://localhost:8080/api/v1/employees");
+    getTasks("http://localhost:8080/api/v1/tasks");
+  }, []);
+
+  // Task CRUD Operations
+  const createTask = (taskData) => {
+    createTask1("http://localhost:8080/api/v1/tasks", taskData)
+      .then(() => {
+        getTasks("http://localhost:8080/api/v1/tasks"); // Refetch tasks after creation
+      })
+      .catch((err) => console.error("Error creating task:", err));
   };
 
-  const removeEmployee = (employeeToRemove) => {
-    setEmployees(employees.filter((employee) => employee !== employeeToRemove));
+  const updateTask = (id, taskData) => {
+    updateTask1("http://localhost:8080/api/v1/tasks", id, taskData)
+      .then(() => {
+        getTasks("http://localhost:8080/api/v1/tasks"); // Refetch tasks after update
+      })
+      .catch((err) => console.error("Error updating task:", err));
   };
 
-  const addTask = (task) => {
-    setTasks([...tasks, task]);
+  const deleteTask = (id) => {
+    removeTask("http://localhost:8080/api/v1/tasks", id)
+      .then(() => {
+        getTasks("http://localhost:8080/api/v1/tasks"); // Refetch tasks after deletion
+      })
+      .catch((err) => console.error("Error deleting task:", err));
   };
 
-  const editTask = (task) => {
-    // Implement edit logic
+  // Employee CRUD Operations
+  const createEmployee = (employeeData) => {
+    createEmployee1("http://localhost:8080/api/v1/employees", employeeData)
+      .then(() => {
+        getEmployees("http://localhost:8080/api/v1/employees"); // Refetch employees after creation
+      })
+      .catch((err) => console.error("Error creating employee:", err));
   };
 
-  const deleteTask = (task) => {
-    setTasks(tasks.filter((t) => t !== task));
+  const updateEmployee = (id, employeeData) => {
+    updateEmployee1("http://localhost:8080/api/v1/employees", id, employeeData)
+      .then(() => {
+        getEmployees("http://localhost:8080/api/v1/employees"); // Refetch employees after update
+      })
+      .catch((err) => console.error("Error updating employee:", err));
   };
+
+  const deleteEmployee = (id) => {
+    removeEmployee("http://localhost:8080/api/v1/employees", id)
+      .then(() => {
+        getEmployees("http://localhost:8080/api/v1/employees"); // Refetch employees after deletion
+      })
+      .catch((err) => console.error("Error deleting employee:", err));
+  };
+
+  const totalTasks = Array.isArray(tasks) ? tasks.length : 0; // Safeguard against null
+  const totalPendingTasks = Array.isArray(tasks) ? tasks.filter((task) => task.status === "Pending").length : 0;
+  const totalCompletedTasks = Array.isArray(tasks) ? tasks.filter((task) => task.status === "Completed").length : 0;
 
   const toggleForm = () => {
     setShowForm(!showForm);
-  };
-
-  const [content, setContent] = React.useState("Employee");
-
-  const showContent = {
-    Task: "Task",
-    Employee: "Employee",
   };
 
   return (
@@ -77,38 +104,51 @@ export const AdminDashboard = () => {
           totalTasks={totalTasks}
           totalCompletedTasks={totalCompletedTasks}
           totalPendingTasks={totalPendingTasks}
-          totalEmployee={employees.length}
+          totalEmployee={Array.isArray(employees) ? employees.length : 0} // Safeguard against null
         />
-        {showContent.Task === content && (
-          <TaskList
-            tasks={tasks}
-            setTasks={setTasks} // Pass setTasks to TaskList
-            onEdit={editTask}
-            onDelete={deleteTask}
+        {content === "Task" && (
+          <TaskList 
+            tasks={tasks}  
+            
+            onEdit={updateTask} 
+            onDelete={deleteTask} 
           />
         )}
         <div className="px-10 flex w-full gap-10 flex-wrap">
           <div className="h-[50vh] w-[380px] bg-gray-100 flex items-center justify-center flex-wrap gap-8 p-10 overflow-auto">
-            {employees.map((employee, index) => (
-              <EmployeeCard
-                key={index}
-                name={employee.name}
-                role={employee.role}
-                email={employee.email}
-                imageUrl={employee.imageUrl}
-              />
-            ))}
+            {Array.isArray(employees) && employees.length > 0 ? (
+              employees.map((employee, index) => (
+                <EmployeeCard
+                  key={index}
+                  name={employee.name}
+                  role={employee.role}
+                  email={employee.email}
+                  imageUrl={employee.imageUrl}
+                />
+              ))
+            ) : (
+              <p>No employees found or data format is incorrect</p>
+            )}
           </div>
-          {/* Repeat EmployeeCard lists... */}
         </div>
 
-        {showContent.Task === content && <TaskForm onSubmit={addTask} />}
+        {content === "Task" && (
+          <TaskForm 
+            employees={employees} 
+            loading={loadingTasks} 
+            error={errorTasks} 
+            onSubmit={createTask} 
+          />
+        )}
 
-        {showContent.Employee === content && (
+        {content === "Employee" && (
           <EmployeeList
             employees={employees}
-            onAdd={addEmployee}
-            onRemove={removeEmployee}
+            onAdd={createEmployee}
+            onRemove={deleteEmployee}
+            onUpdate={updateEmployee}
+            loading={loadingEmployees}
+            error={errorEmployees}
             toggleForm={toggleForm}
             showForm={showForm}
           />
@@ -117,3 +157,5 @@ export const AdminDashboard = () => {
     </div>
   );
 };
+
+export default AdminDashboard;

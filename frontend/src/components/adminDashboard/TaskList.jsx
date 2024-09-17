@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDrop, useDrag, DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { StyleButton } from "../ui/miniComponents/button/StyleButton";
@@ -7,24 +7,32 @@ import { StyleButton } from "../ui/miniComponents/button/StyleButton";
 const ItemType = "TASK";
 
 const Task = ({ task, index, moveTask, onEdit, onDelete }) => {
-  const [, ref] = useDrag({
+  const [{ isDragging }, drag] = useDrag({
     type: ItemType,
-    item: { id: task.id, index },
+    item: { id: task.id, index, status: task.status },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
   });
 
   return (
-    <div ref={ref} className="p-3 mb-4 bg-gray-100 rounded-lg shadow-sm">
+    <div
+      ref={drag}
+      className={`p-3 mb-4 bg-gray-100 rounded-lg shadow-sm ${
+        isDragging ? "opacity-50" : ""
+      }`}
+    >
       <h4 className="font-semibold">{task.name}</h4>
       <p className="text-sm text-gray-600">{task.assignedTo}</p>
       <div className="flex justify-between mt-3">
         <button
-          onClick={() => onEdit(task)}
+          onClick={() => onEdit(task.id, { ...task })}
           className="text-blue-500 hover:text-blue-700"
         >
           Edit
         </button>
         <button
-          onClick={() => onDelete(task)}
+          onClick={() => onDelete(task.id)}
           className="text-red-500 hover:text-red-700"
         >
           Delete
@@ -35,10 +43,12 @@ const Task = ({ task, index, moveTask, onEdit, onDelete }) => {
 };
 
 const Column = ({ columnId, column, moveTask, onEdit, onDelete }) => {
-  const [{ isOver }, ref] = useDrop({
+  const [{ isOver }, drop] = useDrop({
     accept: ItemType,
     drop: (item) => {
-      moveTask(item.id, columnId);
+      if (item.status !== columnId) {
+        moveTask(item.id, columnId);
+      }
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -47,21 +57,19 @@ const Column = ({ columnId, column, moveTask, onEdit, onDelete }) => {
 
   return (
     <div
-      ref={ref}
+      ref={drop}
       className={`bg-white rounded-lg shadow-md p-5 w-[260px] mx-2 ${
         isOver ? "bg-gray-200" : ""
       }`}
     >
       <h3 className="font-bold text-lg mb-4">{column.name}</h3>
-      {column.tasks.map((task, index) => (
+      {column.tasks && column.tasks.map((task, index) => (
         <Task
           key={task.id}
           task={task}
           index={index}
-          moveTask={(sourceIndex, targetIndex) =>
-            moveTask(sourceIndex, targetIndex, columnId)
-          }
-          onEdit={onEdit}
+          moveTask={moveTask}
+          onEdit={onEdit} // Pass the handleEdit function
           onDelete={onDelete}
         />
       ))}
@@ -69,34 +77,54 @@ const Column = ({ columnId, column, moveTask, onEdit, onDelete }) => {
   );
 };
 
-const TaskList = ({ tasks, setTasks, onEdit, onDelete }) => {
+const TaskList = ({ tasks, onEdit, onDelete }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentTask, setCurrentTask] = useState(null);
+  const [editedTask, setEditedTask] = useState({});
+
   const columns = {
     Pending: {
       name: "Pending",
-      tasks: tasks.filter((task) => task.status === "Pending"),
+      tasks: Array.isArray(tasks) ? tasks.filter((task) => task.status === "Pending") : [],
     },
     "In Progress": {
       name: "In Progress",
-      tasks: tasks.filter((task) => task.status === "In Progress"),
+      tasks: Array.isArray(tasks) ? tasks.filter((task) => task.status === "In Progress") : [],
     },
     Completed: {
       name: "Completed",
-      tasks: tasks.filter((task) => task.status === "Completed"),
+      tasks: Array.isArray(tasks) ? tasks.filter((task) => task.status === "Completed") : [],
     },
   };
 
   const moveTask = (taskId, targetColumnId) => {
+    if (!Array.isArray(tasks)) return;
+
     const taskToMove = tasks.find((task) => task.id === taskId);
 
     if (!taskToMove) return; // Task not found
 
-    // Update the task's status and create a new array of tasks
-    const updatedTasks = tasks.map((task) =>
-      task.id === taskId ? { ...task, status: targetColumnId } : task
-    );
+    // Call the onEdit function to update the task's status
+    onEdit(taskId, { ...taskToMove, status: targetColumnId });
+  };
 
-    // Update the task state
-    setTasks(updatedTasks);
+  const handleEdit = (taskId, taskData) => {
+    setCurrentTask(taskData);
+    setEditedTask(taskData); // Set initial values for editing
+    setIsModalOpen(true);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedTask((prevTask) => ({
+      ...prevTask,
+      [name]: value,
+    }));
+  };
+
+  const handleUpdate = () => {
+    onEdit(currentTask.id, editedTask); // Update task with new values
+    setIsModalOpen(false); // Close modal
   };
 
   return (
@@ -109,47 +137,77 @@ const TaskList = ({ tasks, setTasks, onEdit, onDelete }) => {
               key={columnId}
               columnId={columnId}
               column={column}
-              moveTask={(taskId, targetColumnId) =>
-                moveTask(taskId, targetColumnId)
-              }
-              onEdit={onEdit}
+              moveTask={moveTask}
+              onEdit={handleEdit} // Pass the handleEdit function
               onDelete={onDelete}
             />
           ))}
-          <div className="bg-white rounded-lg shadow-md p-5 w-[260px] mx-2">
-            <h3 className="font-bold text-lg mb-4">Manage</h3>
-            <div className="p-3 mb-4 bg-gray-100 btn-container flex flex-col gap-1">
-              <StyleButton
-                bg="blue"
-                text="Manage"
-                hover="blue"
-                border="border-['#0DA882']"
-                onclick={() => alert("Manage")}
-              />
-              <StyleButton
-                bg="blue"
-                text="Tasks"
-                hover="blue"
-                border="border-['#0DA882']"
-                onclick={() => alert("Task")}
-              />
-              <StyleButton
-                bg="blue"
-                text="Tasks"
-                hover="blue"
-                border="border-['#0DA882']"
-                onclick={() => alert("Task")}
-              />
-              <StyleButton
-                bg="blue"
-                text="Tasks"
-                hover="blue"
-                border="border-['#0DA882']"
-                onclick={() => alert("Task")}
-              />
+        </div>
+
+        {/* Modal */}
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white p-6 rounded-lg w-[400px]">
+              <h2 className="text-lg font-bold mb-4">Edit Task</h2>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Name</label>
+                <input
+                  name="name"
+                  value={editedTask.name}
+                  onChange={handleInputChange}
+                  className="mt-1 p-2 border w-full"
+                  type="text"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Assigned To</label>
+                <input
+                  name="assignedTo"
+                  value={editedTask.assignedTo}
+                  onChange={handleInputChange}
+                  className="mt-1 p-2 border w-full"
+                  type="text"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Description</label>
+                <textarea
+                  name="description"
+                  value={editedTask.description}
+                  onChange={handleInputChange}
+                  className="mt-1 p-2 border w-full"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Status</label>
+                <select
+                  name="status"
+                  value={editedTask.status}
+                  onChange={handleInputChange}
+                  className="mt-1 p-2 border w-full"
+                >
+                  <option value="Pending">Pending</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </div>
+              <div className="flex justify-end space-x-2">
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                  onClick={handleUpdate}
+                >
+                  Update
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </DndProvider>
   );

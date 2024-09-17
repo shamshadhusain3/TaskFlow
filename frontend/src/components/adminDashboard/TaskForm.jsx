@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 
-const TaskForm = ({ onSubmit }) => {
-    const [task, setTask] = useState({ name: '', assignedTo: '', status: 'Pending' });
+
+
+
+const TaskForm = ({ onSubmit , employees, loading, error }) => {
+    const [task, setTask] = useState({ 
+        name: '', 
+        assignedTo: '', 
+        description: '', 
+        status: 'Pending', 
+        dueDate: '' 
+    });
 
     const handleChange = (e) => {
         setTask({ ...task, [e.target.name]: e.target.value });
@@ -10,7 +19,13 @@ const TaskForm = ({ onSubmit }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit(task);
-        setTask({ name: '', assignedTo: '', status: 'Pending' });
+        setTask({ 
+            name: '', 
+            assignedTo: '', 
+            description: '', 
+            status: 'Pending', 
+            dueDate: '' 
+        });
     };
 
     return (
@@ -28,10 +43,28 @@ const TaskForm = ({ onSubmit }) => {
             </div>
             <div className="mb-5">
                 <label className="block mb-2 text-sm font-bold">Assigned To</label>
-                <input
-                    type="text"
+                <select
                     name="assignedTo"
                     value={task.assignedTo}
+                    onChange={handleChange}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                    required
+                >
+                    <option value="">Select Employee</option>
+                    {loading && <option value="">Loading...</option>}
+                    {error && <option value="">Error...</option>}
+                    {employees?.map((employee, index) => (
+                        <option key={index} value={employee.firstName}>
+                            {employee.firstName  } {employee.lastName}-{employee.id}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div className="mb-5">
+                <label className="block mb-2 text-sm font-bold">Description</label>
+                <textarea
+                    name="description"
+                    value={task.description}
                     onChange={handleChange}
                     className="w-full p-2 border border-gray-300 rounded-md"
                     required
@@ -51,7 +84,25 @@ const TaskForm = ({ onSubmit }) => {
                     <option value="Completed">Completed</option>
                 </select>
             </div>
-            <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300">Save Task</button>
+            <div className="mb-5">
+                <label className="block mb-2 text-sm font-bold">Due Date</label>
+                <input
+                    type="date"
+                    name="dueDate"
+                    value={task.dueDate}
+                    onChange={handleChange}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                    required
+                />
+            </div>
+            <button 
+        type="submit"
+        disabled={loading}  // Disable button if loading
+        className={`bg-blue-500 text-white py-2 px-4 rounded-lg ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}`}
+      >
+        {loading ? 'Saving...' : 'Save Task'}
+      </button>
+      {error && <p className="text-red-500 mt-2">Error: {error.message}</p>}
         </form>
     );
 };

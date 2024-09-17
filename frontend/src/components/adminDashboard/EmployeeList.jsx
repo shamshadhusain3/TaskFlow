@@ -3,16 +3,16 @@ import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import UseApiService from '../../services/UseApiService'; // Adjust the import path
 
-const EmployeeList = () => {
-    const {
-        data: employees,
-        loading,
-        error,
-        getEmployees,
-        createEmployee,
-        updateEmployee,
-        deleteEmployee
-    } = UseApiService();
+const EmployeeList = ({employees, onAdd, onRemove, onUpdate, loading, error}) => {
+    // const {
+    //     data: employees,
+    //     loading,
+    //     error,
+    //     getEmployees,
+    //     createEmployee,
+    //     updateEmployee,
+    //     deleteEmployee
+    // } = UseApiService();
 
     const [showForm, setShowForm] = useState(false);
     const [isEditing, setIsEditing] = useState(false); // Track if we're editing
@@ -21,7 +21,7 @@ const EmployeeList = () => {
 
     useEffect(() => {
         // Fetch employees when the component mounts
-        getEmployees();
+        // getEmployees();
     }, []);
 
     useEffect(() => {
@@ -40,13 +40,13 @@ const EmployeeList = () => {
         if (first_name && last_name && role && (isEditing || password)) { // Password required only if creating
             if (isEditing) {
                 // Update employee if in editing mode
-                await updateEmployee(currentEmployee.id, { firstName: first_name, lastName: last_name, role, password });
+                await onUpdate(currentEmployee.id, { firstName: first_name, lastName: last_name, role, password });
                 setIsEditing(false); // Reset editing state
             } else {
                 // Add new employee
-                await createEmployee({ firstName: first_name, lastName: last_name, role, password });
+                await onAdd({ firstName: first_name, lastName: last_name, role, password });
             }
-            getEmployees(); // Refresh the employee list
+            // getEmployees(); // Refresh the employee list
             toggleForm(); // Close form after adding/updating
         }
     };
@@ -59,8 +59,8 @@ const EmployeeList = () => {
 
     const handleRemoveEmployee = async (employee) => {
         // Remove the employee by ID
-        await deleteEmployee(employee.id);
-        getEmployees(); // Refresh the employee list after removing
+        await onRemove(employee.id);
+         // Refresh the employee list after removing
     };
 
     const toggleForm = () => {
