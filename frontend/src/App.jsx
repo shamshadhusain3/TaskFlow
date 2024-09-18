@@ -38,19 +38,21 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/profile" element={<Profile />} />
+
 
 
 
 
         {/* Protected route */}
-        <Route 
+        {/* <Route 
           path="/profile" 
           element={
             <PrivateRoute authenticated={authenticated}>
               <Profile />
             </PrivateRoute>
           } 
-        />
+        /> */}
         {/* <Route 
           path="/admin" 
           element={

@@ -9,7 +9,7 @@ import useApiService from "../../services/UseApiService";
 
 export const AdminDashboard = () => {
   const [showForm, setShowForm] = useState(false);
-  const [content, setContent] = useState("Employee");
+  const [content, setContent] = useState("Task");
 
   // Use custom API service hook
   const { 
@@ -114,7 +114,15 @@ export const AdminDashboard = () => {
             onDelete={deleteTask} 
           />
         )}
-        <div className="px-10 flex w-full gap-10 flex-wrap">
+         {content === "Task" && (
+          <TaskForm 
+            employees={employees} 
+            loading={loadingTasks} 
+            error={errorTasks} 
+            onSubmit={createTask} 
+          />
+        )}
+       { content === "Employee" && <div className="px-10 flex w-full gap-10 flex-wrap">
           <div className="h-[50vh] w-[380px] bg-gray-100 flex items-center justify-center flex-wrap gap-8 p-10 overflow-auto">
             {Array.isArray(employees) && employees.length > 0 ? (
               employees.map((employee, index) => (
@@ -127,19 +135,12 @@ export const AdminDashboard = () => {
                 />
               ))
             ) : (
-              <p>No employees found or data format is incorrect</p>
+              <p>loading...</p>
             )}
           </div>
-        </div>
+        </div>}
 
-        {content === "Task" && (
-          <TaskForm 
-            employees={employees} 
-            loading={loadingTasks} 
-            error={errorTasks} 
-            onSubmit={createTask} 
-          />
-        )}
+       
 
         {content === "Employee" && (
           <EmployeeList

@@ -6,7 +6,7 @@ import { StyleButton } from "../ui/miniComponents/button/StyleButton";
 // Define the type for draggable items
 const ItemType = "TASK";
 
-const Task = ({ task, index, moveTask, onEdit, onDelete }) => {
+const Task = ({ task, index, moveTask, onEdit, onDelete, isProfile, onDetail }) => {
   const [{ isDragging }, drag] = useDrag({
     type: ItemType,
     item: { id: task.id, index, status: task.status },
@@ -31,18 +31,22 @@ const Task = ({ task, index, moveTask, onEdit, onDelete }) => {
         >
           Edit
         </button>
-        <button
+        
+          {isProfile ? (<button
+          onClick={() => onDetail(task)}
+          className="text-red-500 hover:text-red-700"
+        >Details
+        </button>) : (<button
           onClick={() => onDelete(task.id)}
           className="text-red-500 hover:text-red-700"
-        >
-          Delete
-        </button>
+        >Delete
+        </button>)}
       </div>
     </div>
   );
 };
 
-const Column = ({ columnId, column, moveTask, onEdit, onDelete }) => {
+const Column = ({ columnId, column, moveTask, onEdit, onDelete, isProfile, onDetail }) => {
   const [{ isOver }, drop] = useDrop({
     accept: ItemType,
     drop: (item) => {
@@ -66,6 +70,8 @@ const Column = ({ columnId, column, moveTask, onEdit, onDelete }) => {
       {column.tasks && column.tasks.map((task, index) => (
         <Task
           key={task.id}
+          onDetail={onDetail}
+          isProfile={isProfile}
           task={task}
           index={index}
           moveTask={moveTask}
@@ -77,10 +83,11 @@ const Column = ({ columnId, column, moveTask, onEdit, onDelete }) => {
   );
 };
 
-const TaskList = ({ tasks, onEdit, onDelete }) => {
+const TaskList = ({ tasks, onEdit, onDelete, isProfile, onDetail }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
   const [editedTask, setEditedTask] = useState({});
+  console.log(isProfile,'profile')
 
   const columns = {
     Pending: {
@@ -134,7 +141,9 @@ const TaskList = ({ tasks, onEdit, onDelete }) => {
         <div className="flex flex-wrap md:flex-row gap-3 w-full justify-center">
           {Object.entries(columns).map(([columnId, column]) => (
             <Column
+            onDetail={onDetail}
               key={columnId}
+              isProfile={isProfile}
               columnId={columnId}
               column={column}
               moveTask={moveTask}
@@ -148,9 +157,9 @@ const TaskList = ({ tasks, onEdit, onDelete }) => {
         {isModalOpen && (
           <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-6 rounded-lg w-[400px]">
-              <h2 className="text-lg font-bold mb-4">Edit Task</h2>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Name</label>
+              <h2 className="text-lg font-bold mb-4">{isProfile? 'Edit status' :'Edit Task'}</h2>
+              <div className={`mb-4 ${isProfile?'hidden':''}`}>
+                <label className={`block text-sm font-medium   text-gray-700`}>Name</label>
                 <input
                   name="name"
                   value={editedTask.name}
@@ -159,7 +168,7 @@ const TaskList = ({ tasks, onEdit, onDelete }) => {
                   type="text"
                 />
               </div>
-              <div className="mb-4">
+              <div  className={`mb-4 ${isProfile?'hidden':''}`}>
                 <label className="block text-sm font-medium text-gray-700">Assigned To</label>
                 <input
                   name="assignedTo"
@@ -169,7 +178,7 @@ const TaskList = ({ tasks, onEdit, onDelete }) => {
                   type="text"
                 />
               </div>
-              <div className="mb-4">
+              <div  className={`mb-4 ${isProfile?'hidden':''}`}>
                 <label className="block text-sm font-medium text-gray-700">Description</label>
                 <textarea
                   name="description"

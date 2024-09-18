@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { StyleButton } from '../ui/miniComponents/button/StyleButton';
 import AuthForm from '../ui/AuthForm';
-import AuthFormMobile from '../ui/AuthFormMobile';
-import FormsPage from '../forms/FormPages';
+// import AuthFormMobile from '../ui/AuthFormMobile';
+
 import AuthButtons from '../ui/miniComponents/button/AuthButtons';
 
 function HeroSection() {
@@ -51,7 +51,7 @@ function HeroSection() {
         <div className="sideImage md:hidden">
           <img src="images/sideImage.png" className="w-full img" alt="" />
         </div>
-        <div className="heroContent md:w-2/3 md:w-full flex flex-col gap-8 justify-center items-center md:justify-start md:items-start">
+        <div className="heroContent  md:w-full flex flex-col gap-8 justify-center items-center md:justify-start md:items-start">
           <div className="flex flex-col md:justify-start md:items-start">
             <h1 className="text-[3rem] text-center font-bold text-black leading-[50px] tracking-tight md:text-start">
               A Task Management
@@ -83,7 +83,7 @@ function HeroSection() {
       </div>
       <div
         ref={authRef}
-        className="Auth fixed top-0 left-0 w-full h-full flex justify-center items-center opacity-0 scale-0 hidden z-50"
+        className="Auth fixed top-0 left-0 w-full h-full  justify-center items-center opacity-0 scale-0 flex hidden z-50"
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
       >
         <div className="relative bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl h-auto mx-4">
@@ -95,8 +95,7 @@ function HeroSection() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
-          {/* {isMobile ? <AuthFormMobile/>: <AuthForm />} */}
-          {/* <FormsPage /> */}
+         
           <AuthButtons/>
         </div>
       </div>

@@ -1,28 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
-import UseApiService from '../../services/UseApiService'; // Adjust the import path
 
 const EmployeeList = ({employees, onAdd, onRemove, onUpdate, loading, error}) => {
-    // const {
-    //     data: employees,
-    //     loading,
-    //     error,
-    //     getEmployees,
-    //     createEmployee,
-    //     updateEmployee,
-    //     deleteEmployee
-    // } = UseApiService();
 
     const [showForm, setShowForm] = useState(false);
-    const [isEditing, setIsEditing] = useState(false); // Track if we're editing
-    const [currentEmployee, setCurrentEmployee] = useState({ firstName: '', lastName: '', role: '' }); // Store current employee to edit
+    const [isEditing, setIsEditing] = useState(false);
+    const [currentEmployee, setCurrentEmployee] = useState({ firstName: '', lastName: '', role: '', email_id: '' });
     const formRef = useRef(null);
-
-    useEffect(() => {
-        // Fetch employees when the component mounts
-        // getEmployees();
-    }, []);
 
     useEffect(() => {
         if (showForm) {
@@ -36,37 +21,35 @@ const EmployeeList = ({employees, onAdd, onRemove, onUpdate, loading, error}) =>
         const last_name = event.target.last_name.value;
         const role = event.target.role.value;
         const password = event.target.password.value;
+        const email_id = event.target.email_id.value; // Use email_id for database
 
-        if (first_name && last_name && role && (isEditing || password)) { // Password required only if creating
+        if (first_name && last_name && role && email_id && (isEditing || password)) {
             if (isEditing) {
-                // Update employee if in editing mode
-                await onUpdate(currentEmployee.id, { firstName: first_name, lastName: last_name, role, password });
+                // Update employee
+                await onUpdate(currentEmployee.id, { firstName: first_name, lastName: last_name, role, password, email_id });
                 setIsEditing(false); // Reset editing state
             } else {
                 // Add new employee
-                await onAdd({ firstName: first_name, lastName: last_name, role, password });
+                await onAdd({ firstName: first_name, lastName: last_name, role, password, email_id });
             }
-            // getEmployees(); // Refresh the employee list
             toggleForm(); // Close form after adding/updating
         }
     };
 
     const handleEditEmployee = (employee) => {
-        setCurrentEmployee(employee); // Set the employee to be edited
-        setIsEditing(true); // Set editing mode
+        setCurrentEmployee(employee); // Set employee for editing
+        setIsEditing(true); // Enable editing mode
         setShowForm(true); // Show the form with employee details
     };
 
     const handleRemoveEmployee = async (employee) => {
-        // Remove the employee by ID
-        await onRemove(employee.id);
-         // Refresh the employee list after removing
+        await onRemove(employee.id); // Remove employee by ID
     };
 
     const toggleForm = () => {
         setShowForm(!showForm);
         if (!showForm) {
-            setCurrentEmployee({ firstName: '', lastName: '', role: '' }); // Clear the current employee when closing form
+            setCurrentEmployee({ firstName: '', lastName: '', role: '', email_id: '' }); // Reset form
             setIsEditing(false); // Reset editing state
         }
     };
@@ -83,6 +66,8 @@ const EmployeeList = ({employees, onAdd, onRemove, onUpdate, loading, error}) =>
                         <tr>
                             <th className="pb-4 text-sm sm:text-base">Name</th>
                             <th className="pb-4 text-sm sm:text-base">Role</th>
+                            <th className="pb-4 text-sm sm:text-base">email</th>
+
                             <th className="pb-4 text-sm sm:text-base">Actions</th>
                         </tr>
                     </thead>
@@ -97,6 +82,8 @@ const EmployeeList = ({employees, onAdd, onRemove, onUpdate, loading, error}) =>
                             >
                                 <td className="py-4 text-sm sm:text-base">{employee.firstName} {employee.lastName}</td>
                                 <td className="text-sm sm:text-base">{employee.role}</td>
+                                <td className="text-sm sm:text-base">{employee.email_id}</td>
+
                                 <td>
                                     <button
                                         onClick={() => handleEditEmployee(employee)}
@@ -139,6 +126,15 @@ const EmployeeList = ({employees, onAdd, onRemove, onUpdate, loading, error}) =>
                                     type="text"
                                     name="last_name"
                                     defaultValue={currentEmployee.lastName}
+                                    className="mt-1 p-2 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-sm sm:text-base font-medium text-gray-700">Email</label>
+                                <input
+                                    type="email"
+                                    name="email_id" // Use email_id to match the database column
+                                    defaultValue={currentEmployee.email_id}
                                     className="mt-1 p-2 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                 />
                             </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbar from '../../header/Navbar'
 import Header from '../../header/Header'
 import { StyleButton } from '../../ui/miniComponents/button/StyleButton'
@@ -9,9 +9,12 @@ import ProfileDetail from './ProfileDetail'
 import Goals from './Goals'
 
 import Team from './Team'
+import useApiService from '../../../services/UseApiService'
+
 
 function Profile() {
   const [content, setContent] = React.useState('Task');
+
 
 const showContent={
   Task:'Task',
@@ -19,6 +22,48 @@ const showContent={
   Goals:'Goals',
   Team:'Team',
 }
+
+const { 
+  data: tasks = [], // Initialize tasks to an empty array
+  get: getTasks, 
+  create: createTask1, 
+  update: updateTask1, 
+  remove: removeTask, 
+  loading: loadingTasks, 
+  error: errorTasks 
+} = useApiService();
+
+// Fetch employees and tasks on component mount
+useEffect(() => {
+  // getEmployees("http://localhost:8080/api/v1/employees");
+  getTasks("http://localhost:8080/api/v1/tasks");
+}, []);
+
+// Task CRUD Operations
+// const createTask = (taskData) => {
+//   createTask1("http://localhost:8080/api/v1/tasks", taskData)
+//     .then(() => {
+//       getTasks("http://localhost:8080/api/v1/tasks"); // Refetch tasks after creation
+//     })
+//     .catch((err) => console.error("Error creating task:", err));
+// };
+
+const updateTask = (id, taskData) => {
+  updateTask1("http://localhost:8080/api/v1/tasks", id, taskData)
+    .then(() => {
+      getTasks("http://localhost:8080/api/v1/tasks"); // Refetch tasks after update
+    })
+    .catch((err) => console.error("Error updating task:", err));
+};
+
+// const deleteTask = (id) => {
+//   removeTask("http://localhost:8080/api/v1/tasks", id)
+//     .then(() => {
+//       getTasks("http://localhost:8080/api/v1/tasks"); // Refetch tasks after deletion
+//     })
+//     .catch((err) => console.error("Error deleting task:", err));
+// };
+
 
   const handleProfile=() => {
     setContent('Profile')
@@ -58,14 +103,14 @@ const showContent={
                 
              <div className="flex gap-4 md:gap-4">
              <StyleButton
-             onclick={handleProfile}
+             onClick={handleProfile}
                 bg='blue'
                  text="Profile"
                 hover="blue"
                 border="border-['#254898']"
                 />
                 <StyleButton
-                onclick={handleTask}
+                onClick={handleTask}
                     bg='sky'
                  text="Tasks"
                 hover="sky"
@@ -74,7 +119,7 @@ const showContent={
              </div>
              <div className="flex gap-4 md:gap-4">
              <StyleButton
-                onclick={handleGoals}
+                onClick={handleGoals}
 
                 bg='yellow'
                  text="Goals"
@@ -82,7 +127,7 @@ const showContent={
                 border="border-['#996F03']"
                 />
                 <StyleButton
-                onclick={handleTeam}
+                onClick={handleTeam}
 
                     bg='green'
                  text="My Team"
@@ -97,7 +142,7 @@ const showContent={
         </div>
        
        {
-        showContent.Task===content && <Task/>
+        showContent.Task===content && <Task tasks={tasks} updateTask={updateTask} />
        }
        {
         showContent.Profile===content && <ProfileDetail/>
