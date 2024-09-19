@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react'
-import Navbar from '../../header/Navbar'
-import Header from '../../header/Header'
-import { StyleButton } from '../../ui/miniComponents/button/StyleButton'
-import TaskCard from '../TaskCard'
-import Task from './Task'
+import Navbar from '../header/Navbar'
+import Header from '../header/Header'
+import { StyleButton } from '../ui/miniComponents/button/StyleButton'
+
+import Task from '../task/Task'
 import UpcomingEvents from './UpcomingEvents'
 import ProfileDetail from './ProfileDetail'
 import Goals from './Goals'
 
 import Team from './Team'
-import useApiService from '../../../services/UseApiService'
+import useApiService from '../../services/UseApiService'
 
 
 function Profile() {

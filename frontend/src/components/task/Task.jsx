@@ -1,9 +1,9 @@
 // Task.js
 import React, { useState } from 'react';
-import TaskCard from '../TaskCard';
-import TaskModal from '../TaskModal';
-import RemarkModal from '../RemarkModal';
-import TaskList from '../../adminDashboard/TaskList'
+
+import TaskModal from './TaskModal';
+import RemarkModal from './RemarkModal';
+import TaskList from './TaskList'
 
 const Task = ({tasks, updateTask}) => {
   const [isProfile, setIsProfile] = useState(true)

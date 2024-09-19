@@ -1,5 +1,5 @@
 import React from 'react'
-import TeamMembers from '../../TeamMembers'
+import TeamMembers from '../TeamMembers'
 
 function Team() {
   return (

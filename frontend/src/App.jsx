@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import LandingPage from './components/landingPage/LandingPage';
-import Dashboard from './components/task/dashboard/Profile';
+import Dashboard from './components/profile/Profile';
 import { AdminDashboard } from './components/adminDashboard/AdminDashboard';
 import Login from './components/forms/user/login/Login';
 import Signup from './components/forms/user/signup/Signup';
@@ -13,7 +13,7 @@ import PrivateRoute from './common/PrivateRoute';
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
-import Profile from './components/task/dashboard/Profile';
+import Profile from './components/profile/Profile';
 
 
 function App() {

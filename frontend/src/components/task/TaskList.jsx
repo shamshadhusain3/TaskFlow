@@ -22,9 +22,18 @@ const Task = ({ task, index, moveTask, onEdit, onDelete, isProfile, onDetail }) 
         isDragging ? "opacity-50" : ""
       }`}
     >
+      <div className="flex justify-between">
       <h4 className="font-semibold">{task.name}</h4>
-      <p className="text-sm text-gray-600">{task.assignedTo}</p>
-      <div className="flex justify-between mt-3">
+      <div className="flex flex-col"><p className="text-sm text-gray-600">{task.assignedTo}</p>
+      <p className="text-sm text-gray-600">ID: {task.id}</p>
+      </div>
+      </div>
+      <p className="text-sm text-gray-600">{task.description}</p>
+        <div className="flex gap-2 my-2 float-end">
+      <p className="text-sm text-red-300 font-bold">{task.dueDate}</p>
+
+        </div>
+      <div className="flex justify-between w-full mt-6">
         <button
           onClick={() => onEdit(task.id, { ...task })}
           className="text-blue-500 hover:text-blue-700"

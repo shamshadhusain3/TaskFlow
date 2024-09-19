@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Dashboard from "./Dashboard";
-import TaskForm from "./TaskForm";
-import TaskList from "./TaskList";
+import TaskForm from "../task/TaskForm";
+import TaskList from "../task/TaskList";
 import EmployeeList from "./EmployeeList";
-import EmployeeCard from "../EmployeeCard";
+import EmployeeCard from "./EmployeeCard";
 import useApiService from "../../services/UseApiService";
 
 export const AdminDashboard = () => {
